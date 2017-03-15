@@ -1,0 +1,27 @@
+
+#Plug in the USB-Serial Port converter back, and run “lsusb” again, and you shall see an
+#additional line, like this
+
+ $ lsusb
+
+Bus 002 Device 004: ID 046d:c018 Logitech, Inc. Optical Wheel Mouse
+Bus 002 Device 003: ID 03f0:064a Hewlett-Packard 
+Bus 002 Device 008: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+Bus 002 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+#Now we know the vendor id and the product id of the USB-Serial Port converter, this will 
+#enable us to load the linux kernel module “usbserial” to activate the device, like this :
+
+ $ sudo modprobe usbserial vendor=0x067b product=0x2303
+ $ dmesg | grep 'ttyUSB'
+ $ sudo chmod 777 /dev/ttyUSB0
+
+#Testing Connection
+ $ sudo apt install cu
+ $ cu -l /dev/ttyUSB0 -S 9600
+
